@@ -1,7 +1,8 @@
-package nl.rdehaard.webapp.mvc;
+package nl.rdehaard.webapp.rest.mvc;
 
 import static org.hamcrest.Matchers.endsWith;
 import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.hasItems;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
@@ -9,11 +10,12 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import nl.rdehaard.webapp.core.entities.BlogEntry;
+import nl.rdehaard.webapp.core.model.entities.Blog;
+import nl.rdehaard.webapp.core.model.entities.BlogEntry;
 import nl.rdehaard.webapp.core.services.BlogEntryService;
-import nl.rdehaard.webapp.rest.mvc.BlogEntryController;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -24,49 +26,57 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+/**
+ * Created by Chris on 6/19/14.
+ */
 public class BlogEntryControllerTest {
-
 	@InjectMocks
-	private BlogEntryController classUnderTest;
-
+	private BlogEntryController controller;
 	@Mock
 	private BlogEntryService service;
-
 	private MockMvc mockMvc;
 
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
-		mockMvc = MockMvcBuilders.standaloneSetup(classUnderTest).build();
+		mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
 	}
 
 	@Test
 	public void getExistingBlogEntry() throws Exception {
-		final BlogEntry entry = new BlogEntry();
+		BlogEntry entry = new BlogEntry();
 		entry.setId(1L);
 		entry.setTitle("Test Title");
-		when(service.find(1L)).thenReturn(entry);
+		Blog blog = new Blog();
+		blog.setId(1L);
+		entry.setBlog(blog);
+		when(service.findBlogEntry(1L)).thenReturn(entry);
 		mockMvc.perform(get("/rest/blog-entries/1"))
 				.andExpect(jsonPath("$.title", is(entry.getTitle())))
 				.andExpect(
-						jsonPath("$.links[*].href",
-								hasItem(endsWith("/blog-entries/1"))))
-				.andExpect(status().isOk());
+						jsonPath(
+								"$.links[*].href",
+								hasItems(endsWith("/blogs/1"),
+										endsWith("/blog-entries/1"))))
+				.andExpect(
+						jsonPath("$.links[*].rel",
+								hasItems(is("self"), is("blog"))))
+				.andExpect(status().isOk()).andDo(print());
 	}
 
 	@Test
 	public void getNonExistingBlogEntry() throws Exception {
-		when(service.find(1L)).thenReturn(null);
+		when(service.findBlogEntry(1L)).thenReturn(null);
 		mockMvc.perform(get("/rest/blog-entries/1")).andExpect(
 				status().isNotFound());
 	}
 
 	@Test
 	public void deleteExistingBlogEntry() throws Exception {
-		final BlogEntry deletedBlogEntry = new BlogEntry();
+		BlogEntry deletedBlogEntry = new BlogEntry();
 		deletedBlogEntry.setId(1L);
 		deletedBlogEntry.setTitle("Test Title");
-		when(service.delete(1L)).thenReturn(deletedBlogEntry);
+		when(service.deleteBlogEntry(1L)).thenReturn(deletedBlogEntry);
 		mockMvc.perform(delete("/rest/blog-entries/1"))
 				.andExpect(jsonPath("$.title", is(deletedBlogEntry.getTitle())))
 				.andExpect(
@@ -77,17 +87,17 @@ public class BlogEntryControllerTest {
 
 	@Test
 	public void deleteNonExistingBlogEntry() throws Exception {
-		when(service.delete(1L)).thenReturn(null);
+		when(service.deleteBlogEntry(1L)).thenReturn(null);
 		mockMvc.perform(delete("/rest/blog-entries/1")).andExpect(
 				status().isNotFound());
 	}
 
 	@Test
 	public void updateExistingBlogEntry() throws Exception {
-		final BlogEntry updatedEntry = new BlogEntry();
+		BlogEntry updatedEntry = new BlogEntry();
 		updatedEntry.setId(1L);
 		updatedEntry.setTitle("Test Title");
-		when(service.update(eq(1L), any(BlogEntry.class))).thenReturn(
+		when(service.updateBlogEntry(eq(1L), any(BlogEntry.class))).thenReturn(
 				updatedEntry);
 		mockMvc.perform(
 				put("/rest/blog-entries/1").content(
@@ -102,7 +112,8 @@ public class BlogEntryControllerTest {
 
 	@Test
 	public void updateNonExistingBlogEntry() throws Exception {
-		when(service.update(eq(1L), any(BlogEntry.class))).thenReturn(null);
+		when(service.updateBlogEntry(eq(1L), any(BlogEntry.class))).thenReturn(
+				null);
 		mockMvc.perform(
 				put("/rest/blog-entries/1").content(
 						"{\"title\":\"Test Title\"}").contentType(

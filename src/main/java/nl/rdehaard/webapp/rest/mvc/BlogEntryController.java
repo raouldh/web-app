@@ -1,8 +1,8 @@
 package nl.rdehaard.webapp.rest.mvc;
 
-import nl.rdehaard.webapp.core.entities.BlogEntry;
+import nl.rdehaard.webapp.core.model.entities.BlogEntry;
 import nl.rdehaard.webapp.core.services.BlogEntryService;
-import nl.rdehaard.webapp.rest.BlogEntryResource;
+import nl.rdehaard.webapp.rest.resource.BlogEntryResource;
 import nl.rdehaard.webapp.rest.resource.asm.BlogEntryResourceAsm;
 
 import org.springframework.http.HttpStatus;
@@ -25,7 +25,7 @@ public class BlogEntryController {
 	@RequestMapping(value = "/{blogEntryId}", method = RequestMethod.GET)
 	public ResponseEntity<BlogEntryResource> getBlogEntry(
 			@PathVariable Long blogEntryId) {
-		final BlogEntry entry = service.find(blogEntryId);
+		BlogEntry entry = service.findBlogEntry(blogEntryId);
 		if (entry != null) {
 			BlogEntryResource res = new BlogEntryResourceAsm()
 					.toResource(entry);
@@ -38,7 +38,7 @@ public class BlogEntryController {
 	@RequestMapping(value = "/{blogEntryId}", method = RequestMethod.DELETE)
 	public ResponseEntity<BlogEntryResource> deleteBlogEntry(
 			@PathVariable Long blogEntryId) {
-		final BlogEntry entry = service.delete(blogEntryId);
+		BlogEntry entry = service.deleteBlogEntry(blogEntryId);
 		if (entry != null) {
 			BlogEntryResource res = new BlogEntryResourceAsm()
 					.toResource(entry);
@@ -52,7 +52,7 @@ public class BlogEntryController {
 	public ResponseEntity<BlogEntryResource> updateBlogEntry(
 			@PathVariable Long blogEntryId,
 			@RequestBody BlogEntryResource sentBlogEntry) {
-		final BlogEntry updatedEntry = service.update(blogEntryId,
+		BlogEntry updatedEntry = service.updateBlogEntry(blogEntryId,
 				sentBlogEntry.toBlogEntry());
 		if (updatedEntry != null) {
 			BlogEntryResource res = new BlogEntryResourceAsm()
@@ -62,5 +62,4 @@ public class BlogEntryController {
 			return new ResponseEntity<BlogEntryResource>(HttpStatus.NOT_FOUND);
 		}
 	}
-
 }

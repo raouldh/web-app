@@ -1,11 +1,10 @@
-package nl.rdehaard.webapp.rest;
+package nl.rdehaard.webapp.rest.resource;
 
-import nl.rdehaard.webapp.core.entities.BlogEntry;
+import nl.rdehaard.webapp.core.model.entities.BlogEntry;
 
 import org.springframework.hateoas.ResourceSupport;
 
 public class BlogEntryResource extends ResourceSupport {
-
 	private String title;
 
 	public String getTitle() {
@@ -17,7 +16,7 @@ public class BlogEntryResource extends ResourceSupport {
 	}
 
 	public BlogEntry toBlogEntry() {
-		final BlogEntry entry = new BlogEntry();
+		BlogEntry entry = new BlogEntry();
 		entry.setTitle(title);
 		return entry;
 	}
