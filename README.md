@@ -1,2 +1,2 @@
 # web-app
-default spring boot webapp with angularJS
+default spring webapp with angularJS
