@@ -17,12 +17,34 @@
 			<artifactId>spring-webmvc</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-orm</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>org.springframework.hateoas</groupId>
 			<artifactId>spring-hateoas</artifactId>
 			<version>0.16.0.RELEASE</version><!-- TODO: move version to parent -->
 		</dependency>
-
 		<!-- End of the Spring dependencies -->
+
+		<!-- persistence/JPA -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.185</version>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>4.3.8.Final</version>
+		</dependency>
+
+		<!-- Database connection pooling -->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-dbcp2</artifactId>
+			<version>2.1</version>
+		</dependency>
 
 		<!-- Start of the Jackson dependencies: needed for JSON processing -->
 		<dependency>

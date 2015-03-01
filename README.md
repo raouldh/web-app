@@ -9,3 +9,4 @@ Language is json.
 
 TODO:
 Replace jsp view for angularJS using REST
+https://www.youtube.com/watch?v=p4wD80_0jWI
