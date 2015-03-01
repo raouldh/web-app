@@ -10,7 +10,6 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import nl.rdehaard.webapp.core.model.entities.Blog;
@@ -26,9 +25,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-/**
- * Created by Chris on 6/19/14.
- */
 public class BlogEntryControllerTest {
 	@InjectMocks
 	private BlogEntryController controller;
@@ -61,7 +57,7 @@ public class BlogEntryControllerTest {
 				.andExpect(
 						jsonPath("$.links[*].rel",
 								hasItems(is("self"), is("blog"))))
-				.andExpect(status().isOk()).andDo(print());
+				.andExpect(status().isOk());
 	}
 
 	@Test

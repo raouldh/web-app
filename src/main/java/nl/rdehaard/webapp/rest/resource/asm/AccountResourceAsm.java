@@ -22,6 +22,9 @@ public class AccountResourceAsm extends
 		res.add(linkTo(
 				methodOn(AccountController.class).getAccount(account.getId()))
 				.withSelfRel());
+		res.add(linkTo(
+				methodOn(AccountController.class).findAllBlogs(account.getId()))
+				.withRel("blogs"));
 		return res;
 	}
 }

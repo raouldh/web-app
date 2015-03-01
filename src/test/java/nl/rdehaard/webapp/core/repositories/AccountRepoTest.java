@@ -1,5 +1,6 @@
 package nl.rdehaard.webapp.core.repositories;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import nl.rdehaard.webapp.core.model.entities.Account;
 
@@ -32,6 +33,9 @@ public class AccountRepoTest {
 	@Test
 	@Transactional
 	public void testFind() {
-		assertNotNull(repo.findAccount(account.getId()));
+		Account account = repo.findAccount(this.account.getId());
+		assertNotNull(account);
+		assertEquals(account.getName(), "name");
+		assertEquals(account.getPassword(), "password");
 	}
 }

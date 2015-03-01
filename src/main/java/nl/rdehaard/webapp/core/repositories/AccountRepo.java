@@ -1,13 +1,15 @@
 package nl.rdehaard.webapp.core.repositories;
 
+import java.util.List;
+
 import nl.rdehaard.webapp.core.model.entities.Account;
-import nl.rdehaard.webapp.core.model.entities.Blog;
 
 public interface AccountRepo {
+	public List<Account> findAllAccounts();
 
 	public Account findAccount(Long id);
 
-	public Account createAccount(Account data);
+	public Account findAccountByName(String name);
 
-	public Blog createBlog(Long accountId, Blog data);
+	public Account createAccount(Account data);
 }

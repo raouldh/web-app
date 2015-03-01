@@ -24,7 +24,6 @@ import nl.rdehaard.webapp.core.services.BlogService;
 import nl.rdehaard.webapp.core.services.exceptions.BlogNotFoundException;
 import nl.rdehaard.webapp.core.services.util.BlogEntryList;
 import nl.rdehaard.webapp.core.services.util.BlogList;
-import nl.rdehaard.webapp.rest.mvc.BlogController;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -59,8 +58,7 @@ public class BlogControllerTest {
 		blogB.setId(2L);
 		blogB.setTitle("Title B");
 		list.add(blogB);
-		BlogList allBlogs = new BlogList();
-		allBlogs.setBlogs(list);
+		BlogList allBlogs = new BlogList(list);
 		when(blogService.findAllBlogs()).thenReturn(allBlogs);
 		mockMvc.perform(get("/rest/blogs"))
 				.andExpect(
@@ -86,7 +84,7 @@ public class BlogControllerTest {
 								hasItem(endsWith("/blogs/1"))))
 				.andExpect(
 						jsonPath("$.links[*].href",
-								hasItem(endsWith("/blogs/1/entries"))))
+								hasItem(endsWith("/blogs/1/blog-entries"))))
 				.andExpect(
 						jsonPath("$.links[*].href",
 								hasItem(endsWith("/accounts/1"))))
@@ -96,6 +94,12 @@ public class BlogControllerTest {
 								hasItems(is("self"), is("owner"), is("entries"))))
 				.andExpect(jsonPath("$.title", is("Test Title")))
 				.andExpect(status().isOk());
+	}
+
+	@Test
+	public void getNonExistingBlog() throws Exception {
+		when(blogService.findBlog(1L)).thenReturn(null);
+		mockMvc.perform(get("/rest/blogs/1")).andExpect(status().isNotFound());
 	}
 
 	@Test
@@ -143,9 +147,7 @@ public class BlogControllerTest {
 		List<BlogEntry> blogListings = new ArrayList();
 		blogListings.add(entryA);
 		blogListings.add(entryB);
-		BlogEntryList list = new BlogEntryList();
-		list.setEntries(blogListings);
-		list.setBlogId(1L);
+		BlogEntryList list = new BlogEntryList(1L, blogListings);
 		when(blogService.findAllBlogEntries(1L)).thenReturn(list);
 		mockMvc.perform(get("/rest/blogs/1/blog-entries"))
 				.andDo(print())
