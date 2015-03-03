@@ -11,6 +11,8 @@
 
 	<context:component-scan base-package="nl.rdehaard.webapp.rest.mvc" />
 	<context:component-scan base-package="nl.rdehaard.webapp.core.services"/>
+	
+	<mvc:resources location="/app/build/" mapping="/app/**"></mvc:resources>
 
 	<!-- initialize controller beans -->
 	<mvc:annotation-driven />
