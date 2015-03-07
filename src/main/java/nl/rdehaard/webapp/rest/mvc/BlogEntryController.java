@@ -14,9 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-/**
- * Created by Chris on 6/5/14.
- */
 @Controller
 @RequestMapping("/rest/blog-entries")
 public class BlogEntryController {

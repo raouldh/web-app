@@ -19,6 +19,7 @@ public class AccountResourceAsm extends
 		AccountResource res = new AccountResource();
 		res.setName(account.getName());
 		res.setPassword(account.getPassword());
+		res.setRid(account.getId());
 		res.add(linkTo(
 				methodOn(AccountController.class).getAccount(account.getId()))
 				.withSelfRel());

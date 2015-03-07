@@ -37,29 +37,37 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 public class BlogControllerTest {
 	@InjectMocks
 	private BlogController controller;
+
 	@Mock
 	private BlogService blogService;
+
 	private MockMvc mockMvc;
 
 	@Before
 	public void setup() {
 		MockitoAnnotations.initMocks(this);
+
 		mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
 	}
 
 	@Test
 	public void findAllBlogs() throws Exception {
 		List<Blog> list = new ArrayList<Blog>();
+
 		Blog blogA = new Blog();
 		blogA.setId(1L);
 		blogA.setTitle("Title A");
 		list.add(blogA);
+
 		Blog blogB = new Blog();
 		blogB.setId(2L);
 		blogB.setTitle("Title B");
 		list.add(blogB);
+
 		BlogList allBlogs = new BlogList(list);
+
 		when(blogService.findAllBlogs()).thenReturn(allBlogs);
+
 		mockMvc.perform(get("/rest/blogs"))
 				.andExpect(
 						jsonPath(
@@ -74,10 +82,13 @@ public class BlogControllerTest {
 		Blog blog = new Blog();
 		blog.setTitle("Test Title");
 		blog.setId(1L);
+
 		Account account = new Account();
 		account.setId(1L);
 		blog.setOwner(account);
+
 		when(blogService.findBlog(1L)).thenReturn(blog);
+
 		mockMvc.perform(get("/rest/blogs/1"))
 				.andExpect(
 						jsonPath("$.links[*].href",
@@ -99,6 +110,7 @@ public class BlogControllerTest {
 	@Test
 	public void getNonExistingBlog() throws Exception {
 		when(blogService.findBlog(1L)).thenReturn(null);
+
 		mockMvc.perform(get("/rest/blogs/1")).andExpect(status().isNotFound());
 	}
 
@@ -106,11 +118,14 @@ public class BlogControllerTest {
 	public void createBlogEntryExistingBlog() throws Exception {
 		Blog blog = new Blog();
 		blog.setId(1L);
+
 		BlogEntry entry = new BlogEntry();
 		entry.setTitle("Test Title");
 		entry.setId(1L);
+
 		when(blogService.createBlogEntry(eq(1L), any(BlogEntry.class)))
 				.thenReturn(entry);
+
 		mockMvc.perform(
 				post("/rest/blogs/1/blog-entries").content(
 						"{\"title\":\"Generic Title\"}").contentType(
@@ -129,6 +144,7 @@ public class BlogControllerTest {
 	public void createBlogEntryNonExistingBlog() throws Exception {
 		when(blogService.createBlogEntry(eq(1L), any(BlogEntry.class)))
 				.thenThrow(new BlogNotFoundException());
+
 		mockMvc.perform(
 				post("/rest/blogs/1/blog-entries").content(
 						"{\"title\":\"Generic Title\"}").contentType(
@@ -138,17 +154,23 @@ public class BlogControllerTest {
 
 	@Test
 	public void listBlogEntriesForExistingBlog() throws Exception {
+
 		BlogEntry entryA = new BlogEntry();
 		entryA.setId(1L);
 		entryA.setTitle("Test Title");
+
 		BlogEntry entryB = new BlogEntry();
 		entryB.setId(2L);
 		entryB.setTitle("Test Title");
+
 		List<BlogEntry> blogListings = new ArrayList();
 		blogListings.add(entryA);
 		blogListings.add(entryB);
+
 		BlogEntryList list = new BlogEntryList(1L, blogListings);
+
 		when(blogService.findAllBlogEntries(1L)).thenReturn(list);
+
 		mockMvc.perform(get("/rest/blogs/1/blog-entries"))
 				.andDo(print())
 				.andExpect(
@@ -164,6 +186,7 @@ public class BlogControllerTest {
 	public void listBlogEntriesForNonExistingBlog() throws Exception {
 		when(blogService.findAllBlogEntries(1L)).thenThrow(
 				new BlogNotFoundException());
+
 		mockMvc.perform(get("/rest/blogs/1/blog-entries")).andDo(print())
 				.andExpect(status().isNotFound());
 	}

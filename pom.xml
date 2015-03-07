@@ -25,6 +25,28 @@
 			<artifactId>spring-hateoas</artifactId>
 			<version>0.16.0.RELEASE</version><!-- TODO: move version to parent -->
 		</dependency>
+		
+		<dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>3.2.6.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>3.2.6.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.8.5</version>
+        </dependency>
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
+           <!--  <scope>provided</scope> --> <!-- FIXME: should be provided scope. our tomcat-plugin does not have this?? -->
+        </dependency>
 		<!-- End of the Spring dependencies -->
 
 		<!-- persistence/JPA -->
@@ -126,8 +148,8 @@
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.2</version>
 				<configuration>
-					<source>1.6</source>
-					<target>1.6</target>
+					<source>1.7</source>
+					<target>1.7</target>
 				</configuration>
 			</plugin>
 			<!-- Tomcat plugin -->
@@ -136,6 +158,11 @@
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>2.3-SNAPSHOT</version>
 			</plugin>
+			 <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.4</version>
+            </plugin>
 		</plugins>
 	</build>
 </project>

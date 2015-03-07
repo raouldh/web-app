@@ -8,10 +8,6 @@ Controller located at: /rest/blog-entries/{blogEntryId}<br/>
 Language is json. <br/>
 js localtion http://localhost:8080/basic-webapp/app/index.html#/home <br/>
 
-TODO:
-Replace jsp view for angularJS using REST
-https://www.youtube.com/watch?v=hTQ8w1ohWoU
-
 For this app I installed:
 	- node-js http://nodejs.org/
 	- gruntjs http://gruntjs.com/getting-started
