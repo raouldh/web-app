@@ -15,6 +15,5 @@ For this app I installed:
 	
 Uses NG boilerplate: https://github.com/ngbp/ngbp (and placed in the webapp/app directory)
 
-use the command: grunt watch throug commandline in webapp/app directory of the project. it recompiles changes in javascript to the /build directory. (which is mapped as static resource in the mvc spring config. <mvc:resource ....)
-
-
+use the command: grunt watch throug commandline in webapp/app directory of the project. it recompiles changes in javascript to the /build directory. (which is mapped as static resource in the mvc spring config. <mvc:resource ....)<br/>
+Use this url: http://localhost:8080/web-app/app/index.html <br/>
