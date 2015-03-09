@@ -5,13 +5,13 @@ import java.util.List;
 import nl.rdehaard.webapp.core.model.entities.Blog;
 
 public interface BlogRepo {
-	public Blog createBlog(Blog data);
+	Blog createBlog(Blog data);
 
-	public List<Blog> findAllBlogs();
+	List<Blog> findAllBlogs();
 
-	public Blog findBlog(Long id);
+	Blog findBlog(Long id);
 
-	public Blog findBlogByTitle(String title);
+	Blog findBlogByTitle(String title);
 
-	public List<Blog> findBlogsByAccount(Long accountId);
+	List<Blog> findBlogsByAccount(Long accountId);
 }

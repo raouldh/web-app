@@ -6,15 +6,15 @@ import nl.rdehaard.webapp.core.services.util.AccountList;
 import nl.rdehaard.webapp.core.services.util.BlogList;
 
 public interface AccountService {
-	public Account findAccount(Long id);
+	Account findAccount(Long id);
 
-	public Account createAccount(Account data);
+	Account createAccount(Account data);
 
-	public Blog createBlog(Long accountId, Blog data);
+	Blog createBlog(Long accountId, Blog data);
 
-	public BlogList findBlogsByAccount(Long accountId);
+	BlogList findBlogsByAccount(Long accountId);
 
-	public AccountList findAllAccounts();
+	AccountList findAllAccounts();
 
-	public Account findByAccountName(String name);
+	Account findByAccountName(String name);
 }

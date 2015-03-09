@@ -5,11 +5,11 @@ import java.util.List;
 import nl.rdehaard.webapp.core.model.entities.Account;
 
 public interface AccountRepo {
-	public List<Account> findAllAccounts();
+	List<Account> findAllAccounts();
 
-	public Account findAccount(Long id);
+	Account findAccount(Long id);
 
-	public Account findAccountByName(String name);
+	Account findAccountByName(String name);
 
-	public Account createAccount(Account data);
+	Account createAccount(Account data);
 }
